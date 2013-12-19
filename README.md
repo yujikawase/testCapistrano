@@ -1,14 +1,25 @@
-Vagrant + Chef Solo
+Capistrano + cakePHP メモ
 =======
 
-Vagrant setting
-
-Vagrant + Chef Soloでサーバー構築。
-php、apache、mysqlの設定を行う。
+/var/www/my_app
+が存在する状態で（my_appディレクトリの権限はログインユーザに）
 
 
-settingフォルダにはVirtualHostの設定のファイルを入れている。
-cookbook initにてphpの導入や、apacheの設定等を行う。（シェルコマンドでごり押し）
+sharedフォルダをscpでコピー
+bundle exec cap production scp:upload  
 
-projectフォルダにプロジェクト入れる形。とりあえずCakePHPでもおいてみた。
-apacheの設定したので、サーバーのIP打ち込めばCakeのトップに行くはず。
+デプロイ
+bundle exec cap production deploy  
+
+中途出てくる
+DEBUG [76a3315c] Running /usr/bin/env [ -f /var/www/my_app/repo/HEAD ] on hogehoge_ip
+DEBUG [76a3315c] Command: [ -f /var/www/my_app/repo/HEAD ]
+DEBUG [51783fdb] Finished in 0.210 seconds with exit status 1 (failed).
+
+のfailedはif文の判別のfailedなので気にしなくて良い
+
+tmpフォルダの階層構造は崩さずにファイルのみを削除
+bundle exec cap production clearcache:tmp 
+
+
+stagingに関しては production => staging　に変更すればよい
